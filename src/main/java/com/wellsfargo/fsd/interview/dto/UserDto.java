@@ -4,9 +4,24 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.wellsfargo.fsd.interview.dao.UserRepository;
+import com.wellsfargo.fsd.interview.entity.User;
+import com.wellsfargo.fsd.interview.exception.UserException;
+import com.wellsfargo.fsd.interview.service.Converter;
+
 public class UserDto {
 	
-	@NotNull(message="User Id is required")
+	@Autowired
+	private UserRepository userRepo;
+	
+	@Autowired
+	private User user;
+	
+	@Autowired
+	private Converter converter;
+
 	private Integer userId;
 
 	@NotNull(message="First Name is required")
@@ -23,6 +38,61 @@ public class UserDto {
     
 	@NotNull(message="mobile number required")
 	@Pattern(regexp="[1-9][0-9]{9}",message="mobile should be of 10 digits only")
-	private String mobile; 
+	private String mobile;
+
+	public Integer getUserId() {
+		return userId;
+	}
+	
+	
+
+	public void setUserId(Integer userId) throws UserException {
+		
+		if(userId!=null)
+		{
+			this.userId = userId;
+		}
+		else
+		{
+			this.userId=0;
+		}
+		
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	} 
+	
+	
+	
+	 
 
 }

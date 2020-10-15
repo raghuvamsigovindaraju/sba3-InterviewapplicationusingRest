@@ -13,5 +13,6 @@ public interface ContactService {
 	boolean deleteContact(int contactId) throws ContactException;
 	
 	Contact getContact(int contactId) throws ContactException;
+	
 	List<Contact> getAllContacts() throws ContactException;
 }

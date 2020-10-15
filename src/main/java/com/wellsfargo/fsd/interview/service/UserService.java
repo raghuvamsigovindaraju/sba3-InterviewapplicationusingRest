@@ -13,6 +13,7 @@ public interface UserService {
 	boolean deleteUser(int uId) throws UserException;
 	
 	User getUser(int uId) throws UserException;
+	
 	List<User> getAllusers() throws UserException;
 
 }
