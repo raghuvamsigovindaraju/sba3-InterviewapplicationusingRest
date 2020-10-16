@@ -1,10 +1,14 @@
 package com.wellsfargo.fsd.interview.entity;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -17,10 +21,10 @@ public class Interview {
 	@Column
 	private Integer uId;
 	
-	@Column(name="interviwername")
-	private String interviwerName;
+	@Column(name="interviewerName")
+	private String interviewerName;
 	
-	@Column(name="interviewname")
+	@Column(name="interviewName")
 	private String interviewName;
 	
 	@Column(name="userskills")
@@ -29,12 +33,15 @@ public class Interview {
 	@Column(name="date")
 	private LocalDate interviewDate;
 	
-	@Column(name="interviewstatus")
+	@Column(name="interviewStatus")
 	private String interviewStatus;
 	
 	@Column(name="remarks")
 	private String remarks;
 	
+	@ManyToOne
+	@JoinColumn(name="userid")
+	private User user;
 	public Integer getInterviewId() {
 		return interviewId;
 	}
@@ -51,12 +58,12 @@ public class Interview {
 		this.uId = uId;
 	}
 
-	public String getInterviwerName() {
-		return interviwerName;
+	public String getinterviewerName() {
+		return interviewerName;
 	}
 
-	public void setInterviwerName(String interviwerName) {
-		this.interviwerName = interviwerName;
+	public void setInterviwerName(String interviewerName) {
+		this.interviewerName = interviewerName;
 	}
 
 	public String getInterviewName() {
@@ -105,11 +112,11 @@ public class Interview {
 
 	
 	public Interview(Integer interviewId, Integer uId, String interviwerName, String interviewName, String userSkills,
-			LocalDate interviewDate, String interviewStatus, String remarks) {
+			LocalDate interviewDate, String interviewStatus, String remarks, String interviewerName) {
 		super();
 		this.interviewId = interviewId;
 		this.uId = uId;
-		this.interviwerName = interviwerName;
+		this.interviewerName = interviewerName;
 		this.interviewName = interviewName;
 		this.userSkills = userSkills;
 		this.interviewDate = interviewDate;
@@ -119,7 +126,7 @@ public class Interview {
 
 	@Override
 	public String toString() {
-		return "Interview [interviewId=" + interviewId + ", uId=" + uId + ", interviwerName=" + interviwerName
+		return "Interview [interviewId=" + interviewId + ", uId=" + uId + ", interviwerName=" + interviewerName
 				+ ", interviewName=" + interviewName + ", userSkills=" + userSkills + ", interviewDate=" + interviewDate
 				+ ", interviewStatus=" + interviewStatus + ", remarks=" + remarks + "]";
 	}

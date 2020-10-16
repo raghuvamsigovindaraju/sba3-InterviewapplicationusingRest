@@ -8,9 +8,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.wellsfargo.fsd.interview.dao.InterviewRepository;
 import com.wellsfargo.fsd.interview.dao.UserRepository;
+import com.wellsfargo.fsd.interview.dto.InterviewDto;
 import com.wellsfargo.fsd.interview.dto.UserDto;
+import com.wellsfargo.fsd.interview.entity.Interview;
 import com.wellsfargo.fsd.interview.entity.User;
+import com.wellsfargo.fsd.interview.exception.InterviewException;
 import com.wellsfargo.fsd.interview.exception.UserException;
 
 @Component
@@ -18,8 +22,10 @@ public class Converter {
 	
 	@Autowired
 	private UserRepository userRepo;
+	@Autowired
+	private InterviewRepository interviewRepo;
 	
-public UserDto entityToDto(User user) {
+public UserDto entityToDto_user(User user) {
 
 		
 		ModelMapper mapper =new ModelMapper();
@@ -28,15 +34,43 @@ public UserDto entityToDto(User user) {
 		
 	}
 
-public  List<UserDto> entityToDto(List<User> users) {
+public InterviewDto entityToDto_interview(Interview interview) {
+
 	
-	return	users.stream().map(x -> entityToDto(x)).collect(Collectors.toList());
+	ModelMapper mapper =new ModelMapper();
+	InterviewDto map = mapper.map(interview, InterviewDto.class);
+	return map;
 	
 }
 
-public User dtoToEntity(UserDto dto) throws UserException
+public  List<UserDto> entityToDto_user(List<User> users) {
+	
+	return	users.stream().map(x -> entityToDto_user(x)).collect(Collectors.toList());
+	
+}
+
+public  List<InterviewDto> entityToDto_interview(List<Interview> interviews) {
+	
+	return	interviews.stream().map(x -> entityToDto_interview(x)).collect(Collectors.toList());
+	
+}
+
+public boolean dto_is_User_Exists(int userid) throws UserException
+{
+	
+	if(!userRepo.existsById(userid))
+	{
+		
+		return false;
+	}
+    
+	return true;
+}
+
+public User dtoToEntity_user(UserDto dto) throws UserException
 {
 	User map=null;
+
 	List<String> exceptionlist=new ArrayList<String>();
 	if(dto!=null)
 	{
@@ -46,6 +80,7 @@ public User dtoToEntity(UserDto dto) throws UserException
 		
 		if(userRepo.existsById(dto.getUserId()))
 		{
+			
 			exceptionlist.add("User Id already exists");
 		}
 		if(dto.getFirstName()==null)
@@ -66,30 +101,89 @@ public User dtoToEntity(UserDto dto) throws UserException
 			ModelMapper mapper = new ModelMapper();
 			map = mapper.map(dto,User.class);
 		}
-		/*
-		 * if(dto.getUserId()!=null) { if(userRepo.existsById(dto.getUserId())) { throw
-		 * new UserException("user id already exists please use different id"); } else
-		 * if(dto.getFirstName()!=null){ if(dto.getFirstName().length()<5 ||
-		 * dto.getFirstName().length()>30) { throw new
-		 * UserException("First Name should be min 5 and max 30"); }
-		 * 
-		 * 
-		 * // ModelMapper mapper = new ModelMapper(); // map = mapper.map(dto,
-		 * User.class); }
-		 * 
-		 * } else { throw new UserException("user id cant be null"); }
-		 */
+
 	}
 	
 	return map;
 }
 
-public List<User> dtoToEntity(List<UserDto> dto)
+public Interview dtoToEntity_interview(InterviewDto dto) throws InterviewException
+{
+	Interview map=null;
+
+	List<String> exceptionlist=new ArrayList<String>();
+	if(dto!=null)
+	{
+		if(dto.getInterviewId()==0) {
+			exceptionlist.add("Interview Id is null");
+		}
+		
+		if(interviewRepo.existsById(dto.getInterviewId()))
+		{
+			
+			exceptionlist.add("Interview Id already exists");
+		}
+		if(dto.getInterviewerName()==null)
+		{
+			exceptionlist.add("Interviewer Name cant be blank");
+		}
+		if(dto.getInterviewerName().length()<5 || dto.getInterviewerName().length()>30)
+		{
+			exceptionlist.add("Interviewer Name should be between 5 & 30 chars");
+		}
+		if(dto.getInterviewName()==null)
+		{
+			exceptionlist.add("Interview Name cant be blank");
+		}
+		if(dto.getInterviewName().length()<5 || dto.getInterviewName().length()>30)
+		{
+			exceptionlist.add("Interview Name should be between 5 & 30 chars");
+		}
+		if(dto.getUserSkills()==null)
+		{
+			exceptionlist.add("User Skill cant be blank");
+		}
+		if(dto.getUserSkills().length()<5 || dto.getUserSkills().length()>30)
+		{
+			exceptionlist.add("Interviw Name should be between 5 & 30 chars");
+		}
+		if(dto.getInterviewStatus()==null)
+		{
+			exceptionlist.add("Interview Status cant be blank");
+		}
+		if(dto.getInterviewStatus().length()<5 || dto.getInterviewStatus().length()>100)
+		{
+			exceptionlist.add("Interview status should be between 5 & 100 chars");
+		}
+		if(dto.getRemarks()==null)
+		{
+			exceptionlist.add("Remarks cant be blank");
+		}
+		if(dto.getRemarks().length()<5 || dto.getRemarks().length()>100)
+		{
+			exceptionlist.add("Remarks 	should be between 5 & 100 chars");
+		}
+		if(exceptionlist.size()>0)
+		{
+			throw new InterviewException(exceptionlist.toString());
+		}
+		else
+		{
+			ModelMapper mapper = new ModelMapper();
+			map = mapper.map(dto,Interview.class);
+		}
+
+	}
+	
+	return map;
+}
+
+public List<User> dtoToEntity_user(List<UserDto> dto)
 {
 
 	return dto.stream().map(x -> {
 		try {
-			return dtoToEntity(x);
+			return dtoToEntity_user(x);
 		} catch (UserException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -98,4 +192,17 @@ public List<User> dtoToEntity(List<UserDto> dto)
 	}).collect(Collectors.toList());
 }
 
+public List<Interview> dtoToEntity_interview(List<InterviewDto> dto)
+{
+
+	return dto.stream().map(x -> {
+		try {
+			return dtoToEntity_interview(x);
+		} catch (InterviewException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}).collect(Collectors.toList());
+}
 }

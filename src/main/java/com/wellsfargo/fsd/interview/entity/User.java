@@ -1,8 +1,14 @@
 package com.wellsfargo.fsd.interview.entity;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -11,6 +17,9 @@ public class User {
 	
 	@Id
 	private Integer userId;
+	
+	@OneToMany(mappedBy="uId",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
+	Set<Interview> interviews;
 	
 	@Column(name="fnm")
 	private String firstName;

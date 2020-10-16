@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.wellsfargo.fsd.interview.exception.ContactException;
+import com.wellsfargo.fsd.interview.exception.InterviewException;
 import com.wellsfargo.fsd.interview.exception.UserException;
 
 @RestControllerAdvice
@@ -20,9 +21,23 @@ public class GlobalExceptionController {
 	}
 	
 	@ExceptionHandler(Exception.class)
-	public ResponseEntity<String> handleException(UserException exp) {
+	public ResponseEntity<String> handleGenericUserException(UserException exp) {
 		
 		return new ResponseEntity<String>(exp.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	
+	@ExceptionHandler(InterviewException.class)
+	public ResponseEntity<String> handleInterviewException(InterviewException exp) {
+		
+		return new ResponseEntity<String>(exp.getMessage(),HttpStatus.BAD_REQUEST);
+	}
+	
+	/*
+	 * @ExceptionHandler(Exception.class) public ResponseEntity<String>
+	 * handleGenericInterviewException(InterviewException exp) {
+	 * 
+	 * return new
+	 * ResponseEntity<String>(exp.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR); }
+	 */
 
 }

@@ -23,7 +23,7 @@ public class InterviewServiceImpl implements InterviewService{
 		if(interview!=null)
 		{
 			if(interviewRepo.existsById(interview.getInterviewId())) {
-				throw new InterviewException("User Already exists");
+				throw new InterviewException("Interview Already exists");
 			}
 			
 			interviewRepo.save(interview);
@@ -37,7 +37,7 @@ public class InterviewServiceImpl implements InterviewService{
 		if(interview!=null)
 		{
 			if(!interviewRepo.existsById(interview.getInterviewId())) {
-				throw new InterviewException("User id not found");
+				throw new InterviewException("Interview id not found");
 			}
 			interviewRepo.save(interview);
 		}
@@ -50,7 +50,7 @@ public class InterviewServiceImpl implements InterviewService{
 		
 		
 			if(!interviewRepo.existsById(id)) {
-				throw new InterviewException("User id not found");
+				throw new InterviewException("Interview id not found");
 			}
 			interviewRepo.deleteById(id);
 		
