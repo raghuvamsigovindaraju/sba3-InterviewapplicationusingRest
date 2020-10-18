@@ -1,12 +1,14 @@
 package com.wellsfargo.fsd.interview.entity;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -21,6 +23,9 @@ public class Interview {
 	@Column
 	private Integer uId;
 	
+	@Column(name="date")
+	private LocalDate interviewDate;
+	
 	@Column(name="interviewerName")
 	private String interviewerName;
 	
@@ -29,9 +34,6 @@ public class Interview {
 	
 	@Column(name="userskills")
 	private String userSkills;
-	
-	@Column(name="date")
-	private LocalDate interviewDate;
 	
 	@Column(name="interviewStatus")
 	private String interviewStatus;
@@ -42,6 +44,7 @@ public class Interview {
 	@ManyToOne
 	@JoinColumn(name="userid")
 	private User user;
+
 	public Integer getInterviewId() {
 		return interviewId;
 	}
@@ -62,7 +65,7 @@ public class Interview {
 		return interviewerName;
 	}
 
-	public void setInterviwerName(String interviewerName) {
+	public void setInterviewerName(String interviewerName) {
 		this.interviewerName = interviewerName;
 	}
 
@@ -111,8 +114,8 @@ public class Interview {
 	}
 
 	
-	public Interview(Integer interviewId, Integer uId, String interviwerName, String interviewName, String userSkills,
-			LocalDate interviewDate, String interviewStatus, String remarks, String interviewerName) {
+	public Interview(Integer interviewId, Integer uId, String interviewerName, String interviewName, String userSkills,
+			LocalDate interviewDate, String interviewStatus, String remarks) {
 		super();
 		this.interviewId = interviewId;
 		this.uId = uId;
@@ -126,7 +129,7 @@ public class Interview {
 
 	@Override
 	public String toString() {
-		return "Interview [interviewId=" + interviewId + ", uId=" + uId + ", interviwerName=" + interviewerName
+		return "Interview [interviewId=" + interviewId + ", uId=" + uId + ", interviewerName=" + interviewerName
 				+ ", interviewName=" + interviewName + ", userSkills=" + userSkills + ", interviewDate=" + interviewDate
 				+ ", interviewStatus=" + interviewStatus + ", remarks=" + remarks + "]";
 	}

@@ -69,4 +69,18 @@ public class UserServiceImpl implements UserService{
 		return userRepo.findAll();
 	}
 
+
+	
+	@Override
+	public List<User> getAllusersByIds(List<Integer> userlist) throws UserException {
+		// TODO Auto-generated method stub
+		
+		List<User> users=userRepo.findAllById(userlist);
+		return users;
+	}
+
+
+
+	
+
 }

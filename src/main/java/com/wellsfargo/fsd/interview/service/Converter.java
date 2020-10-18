@@ -24,7 +24,8 @@ public class Converter {
 	private UserRepository userRepo;
 	@Autowired
 	private InterviewRepository interviewRepo;
-	
+	@Autowired
+	private InterviewService interviewService;
 public UserDto entityToDto_user(User user) {
 
 		
@@ -67,6 +68,36 @@ public boolean dto_is_User_Exists(int userid) throws UserException
 	return true;
 }
 
+public boolean dto_is_Interview_Exists(int id) throws InterviewException
+{
+	
+	if(!interviewRepo.existsById(id))
+	{
+		
+		return false;
+	}
+    
+	return true;
+}
+
+public boolean dto_is_Attendee_For_Interview_Exists(int interviewId,int uId) throws InterviewException
+{
+
+	//Interview i=interviewService.getAttendeeforInterview(interviewId,uId);
+	
+	  if(interviewService.getAttendeeforInterview(interviewId,uId)!=0) 
+	  {
+	  
+	  return true; 
+	  }
+	  
+	  else { return false; }
+	 
+	
+	//return true;
+
+}
+
 public User dtoToEntity_user(UserDto dto) throws UserException
 {
 	User map=null;
@@ -83,7 +114,7 @@ public User dtoToEntity_user(UserDto dto) throws UserException
 			
 			exceptionlist.add("User Id already exists");
 		}
-		if(dto.getFirstName()==null)
+		if(dto.getFirstName().equals(""))
 		{
 			exceptionlist.add("First Name cant be blank");
 		}
@@ -91,7 +122,33 @@ public User dtoToEntity_user(UserDto dto) throws UserException
 		{
 			exceptionlist.add("First Name should be between 5 & 30 chars");
 		}
-	   
+		if(dto.getLastName().equals(""))
+		{
+			exceptionlist.add("Last Name cant be blank");
+		}
+		if(dto.getLastName().length()<3 || dto.getLastName().length()>25)
+		{
+			exceptionlist.add("Last Name should be between 3 & 25 chars");
+		}
+		
+		if(dto.getEmail().equals(""))
+		{
+			exceptionlist.add("Email Id cant be blank");
+		}
+		 
+		 if(!dto.getEmail().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$")) {
+			 
+		  exceptionlist.add("Email should be in valid format"); }
+		 
+		if(dto.getMobile().equals(""))
+		{
+			exceptionlist.add("Mobile number cant be blank");
+		}
+		if((dto.getMobile().length()<3 || dto.getMobile().length()>10))
+		{
+			exceptionlist.add("Mobile number should be between 3 to 10 chars");
+		}
+		
 		if(exceptionlist.size()>0)
 		{
 			throw new UserException(exceptionlist.toString());
@@ -123,7 +180,7 @@ public Interview dtoToEntity_interview(InterviewDto dto) throws InterviewExcepti
 			
 			exceptionlist.add("Interview Id already exists");
 		}
-		if(dto.getInterviewerName()==null)
+		if(dto.getInterviewerName().equals(""))
 		{
 			exceptionlist.add("Interviewer Name cant be blank");
 		}
@@ -131,7 +188,7 @@ public Interview dtoToEntity_interview(InterviewDto dto) throws InterviewExcepti
 		{
 			exceptionlist.add("Interviewer Name should be between 5 & 30 chars");
 		}
-		if(dto.getInterviewName()==null)
+		if(dto.getInterviewName().equals(""))
 		{
 			exceptionlist.add("Interview Name cant be blank");
 		}
@@ -139,15 +196,15 @@ public Interview dtoToEntity_interview(InterviewDto dto) throws InterviewExcepti
 		{
 			exceptionlist.add("Interview Name should be between 5 & 30 chars");
 		}
-		if(dto.getUserSkills()==null)
+		if(dto.getUserSkills().equals(""))
 		{
 			exceptionlist.add("User Skill cant be blank");
 		}
 		if(dto.getUserSkills().length()<5 || dto.getUserSkills().length()>30)
 		{
-			exceptionlist.add("Interviw Name should be between 5 & 30 chars");
+			exceptionlist.add("User Skill should be between 5 & 30 chars");
 		}
-		if(dto.getInterviewStatus()==null)
+		if(dto.getInterviewStatus().equals(""))
 		{
 			exceptionlist.add("Interview Status cant be blank");
 		}
@@ -155,7 +212,7 @@ public Interview dtoToEntity_interview(InterviewDto dto) throws InterviewExcepti
 		{
 			exceptionlist.add("Interview status should be between 5 & 100 chars");
 		}
-		if(dto.getRemarks()==null)
+		if(dto.getRemarks().equals(""))
 		{
 			exceptionlist.add("Remarks cant be blank");
 		}
@@ -171,6 +228,7 @@ public Interview dtoToEntity_interview(InterviewDto dto) throws InterviewExcepti
 		{
 			ModelMapper mapper = new ModelMapper();
 			map = mapper.map(dto,Interview.class);
+			//map.setInterviewerName("c");
 		}
 
 	}

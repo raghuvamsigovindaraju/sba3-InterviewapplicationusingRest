@@ -70,6 +70,44 @@ public class InterviewServiceImpl implements InterviewService{
 		return interviewRepo.findAll();
 	}
 
+	@Override
+	public List<Interview> getAllinterviewsbyInterviewer(String interviewerName) throws InterviewException {
+		// TODO Auto-generated method stub
+		return interviewRepo.findAllByInterviewerName(interviewerName);
+	}
+
+	@Override
+	public long getCountAllinterviews() throws InterviewException {
+		long count=interviewRepo.countAllInterviews();
+		return count;
+	}
+
+	@Override
+	public long getAttendeeforInterview(int interviewId,int uId) throws InterviewException {
+
+          long count=interviewRepo.countAllAttendeestoInterview(interviewId, uId);
+		 return count;
+            
+	}
+
+	@Override
+	public List<Integer> getallAttendeeforInterview(int interviewId) throws InterviewException {
+		
+		return interviewRepo.findAllAttendeIds(interviewId);
+	}
+
+	@Override
+	public List<Interview> getAllinterviewsbyInterviewerandInterview(String interviewername, String interviewname)
+			throws InterviewException {
+		// TODO Auto-generated method stub
+		return interviewRepo.findAllByInterviewerNameandInterviewName(interviewername, interviewname);
+	}
+
+	/*
+	 * @Override public int getCountAllinterviews() throws InterviewException { //
+	 * TODO Auto-generated method stub return interviewRepo.countAllInterviews(); }
+	 */
+
 
 
 }

@@ -15,5 +15,6 @@ public interface UserService {
 	User getUser(int uId) throws UserException;
 	
 	List<User> getAllusers() throws UserException;
+	List<User> getAllusersByIds(List<Integer> userlist) throws UserException;
 
 }

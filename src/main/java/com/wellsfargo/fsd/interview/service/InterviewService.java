@@ -16,5 +16,14 @@ public interface InterviewService {
 	Interview getInterview(int uId) throws InterviewException;
 	
 	List<Interview> getAllinterviews() throws InterviewException;
+	
+	List<Interview> getAllinterviewsbyInterviewer(String interviewerName) throws InterviewException;
+	
+	long getCountAllinterviews() throws InterviewException;
+	
+	long getAttendeeforInterview(int interviewId,int uId) throws InterviewException;
+	List<Integer> getallAttendeeforInterview(int interviewId) throws InterviewException;
+
+	List<Interview> getAllinterviewsbyInterviewerandInterview(String interviewername, String interviewname) throws InterviewException;
 
 }

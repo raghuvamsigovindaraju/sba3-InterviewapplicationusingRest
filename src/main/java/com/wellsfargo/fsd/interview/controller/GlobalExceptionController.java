@@ -2,12 +2,9 @@ package com.wellsfargo.fsd.interview.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.wellsfargo.fsd.interview.exception.ContactException;
 import com.wellsfargo.fsd.interview.exception.InterviewException;
 import com.wellsfargo.fsd.interview.exception.UserException;
 

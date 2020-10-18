@@ -1,5 +1,7 @@
 package com.wellsfargo.fsd.interview.entity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -20,7 +22,7 @@ public class User {
 	
 	@OneToMany(mappedBy="uId",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	Set<Interview> interviews;
-	
+		
 	@Column(name="fnm")
 	private String firstName;
 	
